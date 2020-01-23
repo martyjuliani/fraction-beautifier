@@ -9,6 +9,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Beautifier {
 
     public static void main(String[] args) {
+        // TODO MB: add also validation for supported characters
+        if (args.length != 1) {
+            throw new IllegalArgumentException("Incorrect input has entered");
+        }
+
         Expression result = simplify(args[0]);
         print(result);
     }
