@@ -9,11 +9,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Beautifier {
 
     public static void main(String[] args) {
-        // TODO MB: add also validation for supported characters
-        if (args.length != 1) {
-            throw new IllegalArgumentException("Incorrect input has entered");
-        }
-
+        validateInput(args);
         Expression result = simplify(args[0]);
         print(result);
     }
@@ -30,6 +26,16 @@ public class Beautifier {
         ParseTree tree = parser.expr();
         BeautifierVisitorImpl visitor = new BeautifierVisitorImpl();
         return visitor.visit(tree);
+    }
+
+    private static void validateInput(String[] args) {
+        if (args.length != 1) {
+            throw new IllegalArgumentException("Incorrect parameter number has entered to the command line.");
+        }
+        String pattern = "[-+/*()\\d]+";
+        if (!args[0].matches(pattern)) {
+            throw new IllegalArgumentException("Expression with forbidden characters has entered.");
+        }
     }
 
     private static void print(Expression result) {

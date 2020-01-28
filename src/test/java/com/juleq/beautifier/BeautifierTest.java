@@ -9,7 +9,7 @@ import org.junit.runners.JUnit4;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(JUnit4.class)
 class BeautifierTest {
@@ -44,5 +44,25 @@ class BeautifierTest {
         Beautifier.main(expression);
 
         assertEquals(consoleContent.toString(), expected);
+    }
+
+    @Test
+    void detectInvalidCharacters() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            Beautifier.main(new String[]{"invalid"});
+        });
+
+        String expectedMessage = "Expression with forbidden characters has entered.";
+        assertTrue(exception.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    void detectIncorrectNumberOfParameters() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            Beautifier.main(new String[]{"1+2", "3*4"});
+        });
+
+        String expectedMessage = "Incorrect parameter number has entered to the command line.";
+        assertTrue(exception.getMessage().contains(expectedMessage));
     }
 }
