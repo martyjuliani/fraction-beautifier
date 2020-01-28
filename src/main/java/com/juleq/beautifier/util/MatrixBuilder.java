@@ -20,7 +20,7 @@ public class MatrixBuilder {
         return new MatrixBuilder();
     }
 
-    public MatrixBuilder withIndex(int pivotIndex) {
+    public MatrixBuilder withPivotIndex(int pivotIndex) {
         this.pivotIndex = pivotIndex;
         return this;
     }
@@ -65,14 +65,20 @@ public class MatrixBuilder {
         return buildSimpleMatrix();
     }
 
+    /**
+     * Creates fraction expression as an matrix.
+     *
+     * @param operator the divider operator
+     * @return the expression representing fraction as an matrix
+     */
     public Expression buildFractionMatrix(Expression operator) {
         int fractionWidth = operator.getWidth();
         int fractionHeight = left.getHeight() + right.getHeight() + 1;
         Expression result = new Expression(left.getHeight());
         result.setFraction(true);
-        identFractionPart(0, left.getHeight(), fractionWidth, result, left, right);
+        alignFractionPart(0, left.getHeight(), fractionWidth, result, left, right);
         result.addToMatrix(left.getHeight(), operator.getExpresion(0));
-        identFractionPart(left.getHeight() + 1, fractionHeight, fractionWidth, result, right, left);
+        alignFractionPart(left.getHeight() + 1, fractionHeight, fractionWidth, result, right, left);
         return result;
     }
 
@@ -89,15 +95,20 @@ public class MatrixBuilder {
         return result;
     }
 
-    private void identFractionPart(int from, int to, int fractionWidth, Expression result, Expression left, Expression right) {
+    /**
+     * Aligns numerator and denominator according to their width.
+     */
+    private void alignFractionPart(int from, int to, int fractionWidth, Expression result, Expression left, Expression right) {
         int exprIndex = 0;
         for (int i = from; i < to; i++, exprIndex++) {
             if (left.getWidth() > right.getWidth()) {
+                // add just one space before and after for longer expression
                 result.addToMatrix(i, SPACE + left.getExpresion(exprIndex) + SPACE);
             } else {
-                int leftIndent = (fractionWidth - left.getWidth()) / 2 ;
-                int rightIndent = (fractionWidth - left.getWidth()) / 2 + (fractionWidth - left.getWidth()) % 2;
-                result.addToMatrix(i, repeat(SPACE, leftIndent) + left.getExpresion(exprIndex) + repeat(SPACE, rightIndent));
+                // count spaces for shorter expression, more spaces are after expression for odd width
+                int leftAlign = (fractionWidth - left.getWidth()) / 2 ;
+                int rightAlign = (fractionWidth - left.getWidth()) / 2 + (fractionWidth - left.getWidth()) % 2;
+                result.addToMatrix(i, repeat(SPACE, leftAlign) + left.getExpresion(exprIndex) + repeat(SPACE, rightAlign));
             }
         }
     }
