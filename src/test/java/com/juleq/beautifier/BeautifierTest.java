@@ -48,9 +48,7 @@ class BeautifierTest {
 
     @Test
     void detectInvalidCharacters() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            Beautifier.main(new String[]{"invalid"});
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Beautifier.main(new String[]{"invalid"}));
 
         String expectedMessage = "Expression with forbidden characters has entered.";
         assertTrue(exception.getMessage().contains(expectedMessage));
@@ -58,9 +56,7 @@ class BeautifierTest {
 
     @Test
     void detectIncorrectNumberOfParameters() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            Beautifier.main(new String[]{"1+2", "3*4"});
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Beautifier.main(new String[]{"1+2", "3*4"}));
 
         String expectedMessage = "Incorrect parameter number has entered to the command line.";
         assertTrue(exception.getMessage().contains(expectedMessage));

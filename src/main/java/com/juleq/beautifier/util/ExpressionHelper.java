@@ -21,7 +21,9 @@ public class ExpressionHelper {
     }
 
     /**
-     * Concatenates two expressions (left and right) as an single matrix.
+     * Concatenates two expressions (left and right) as an single matrix. It is performed for '+','-' or '*' operators.
+     * For the same pivot it is just a simple concatenation, for different pivots one from the expressions needs to be
+     * shifted.
      *
      * @param left the left expression
      * @param right the right expression
@@ -60,6 +62,14 @@ public class ExpressionHelper {
         }
     }
 
+    /**
+     * Concatenates two matrices. For different lengths one matrix needs to be firstly balanced and shifted. For the
+     * same long expressions with different pivots the both matrices needs to be balanced.
+     *
+     * @param left the left expression
+     * @param right the right expression
+     * @return the concatenated expression
+     */
     private static Expression concatWithShift(Expression left, Expression right) {
         if (left.getHeight() > right.getHeight()) {
             return MatrixBuilder.newInstance()

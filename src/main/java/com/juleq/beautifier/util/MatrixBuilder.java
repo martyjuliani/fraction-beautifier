@@ -51,6 +51,12 @@ public class MatrixBuilder {
         return result;
     }
 
+    /**
+     * Balances two expressions with the same length according to their pivots. Some spaces will be filled to balanced
+     * part to the top or to the bottom.
+     *
+     * @return the balanced expression
+     */
     public Expression buildBalancedMatrix() {
         int delta = left.getPivotIndex() - right.getPivotIndex();
 
@@ -113,6 +119,15 @@ public class MatrixBuilder {
         }
     }
 
+    /**
+     * Firstly, it is need to expand right or left operand to the matrix with the same length. Then shift this matrix according to
+     * pivot difference, so the both expression will be on the same pivot line with the same length and will be prepared
+     * for simple concatenation.
+     *
+     * @param shifted the expression to expand and shift
+     * @param stable the expression without any change
+     * @return the expanded and shifted expression
+     */
     private Expression shift(Expression shifted, Expression stable) {
         Expression expanded = new Expression();
         int delta = abs(shifted.getPivotIndex() - stable.getPivotIndex());
