@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 public class Beautifier {
-
     public static void main(String[] args) {
         validateInput(args);
         Expression result = simplify(args[0]);

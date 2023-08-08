@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public class Expression {
 
-    private Map<Integer, String> matrix = new TreeMap<>();
+    private final Map<Integer, String> matrix = new TreeMap<>();
     private int height;
     private int width;
     private int pivotIndex;
